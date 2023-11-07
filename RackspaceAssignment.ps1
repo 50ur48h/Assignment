@@ -5,7 +5,7 @@ function Get-CommonTimeZone {
         [int]$Offset
     )
 
-    if ($Name -ne $null -and $Offset -ne 0) {
+    if (-not [string]::IsNullOrEmpty($Name) -and $Offset -ne $null) {
         Write-Host "Please provide only one parameter: 'Name' or 'Offset'."
         return
     }
@@ -23,7 +23,7 @@ function Get-CommonTimeZone {
         Write-Host "Failed to download time zone data from Github."
     }
 
-    if ($Name -ne $null) {
+    if (-not [string]::IsNullOrEmpty($Name)) {
         $filteredTimeZones = $timeZoneData | Where-Object { $_.utc -like "*$Name*"}
     } elseif ($Offset -ne 0) {
         $filteredTimeZones = $timeZoneData | Where-Object { $_.offset -eq $Offset }
